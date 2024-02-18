@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snow Forecast</title>
+</head>
+<body>
+    <h1>Snow Resorts and Forecasts</h1>
+
+    <h2>Resorts</h2>
+    <ul>
+        {% for resort in resorts %}
+            <li>{{ resort.Name }} - {{ resort.Location }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Forecasts</h2>
+    <ul>
+        {% for forecast in forecasts %}
+            <li>{{ forecast.date }}: {{ forecast.snowfall_amount }} inches</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
