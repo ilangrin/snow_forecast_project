@@ -1,8 +1,8 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template
 import mysql.connector
-import requests
 import os
 from dotenv import load_dotenv
+from api import get_ski_resort_forecast  # Make sure api.py is in the same directory
 
 # Load environment variables
 load_dotenv()
@@ -17,11 +17,9 @@ db_config = {
     'database': os.getenv('DB_NAME')
 }
 
-# API Endpoint and Key from Environment Variables
-FORECAST_API_URL = os.getenv('FORECAST_API_URL', 'https://api.weatherunlocked.com')
-App_name = os.getenv('App_name')
-App_ID = os.getenv('App_ID')
-API_KEY = os.getenv('API_KEY')
+# Variables for API
+FORECAST_API_URL = os.getenv('FORECAST_API_URL')
+API_KEY = os.getenv('API_KEY')  # Your API key
 
 @app.route('/')
 def home():
@@ -33,24 +31,13 @@ def home():
     cursor.close()
     cnx.close()
 
-    # Construct full API request URL with key if needed
-    full_api_url = f"{FORECAST_API_URL}?app_id={API_KEY}"
+    # Assume 'resort_id' is determined here. You may need a way to obtain this dynamically or as part of the request
+    resort_id = "999001"  # Example resort ID, replace or adjust as needed
 
-    # Fetch forecast data from API
-    api_response = requests.get(full_api_url)
-    api_forecasts = response.json() if response.status_code == 200 else []
+    # Fetch forecast data using the external API function
+    forecasts = get_ski_resort_forecast(resort_id, os.getenv('APP_ID'), API_KEY, FORECAST_API_URL)
 
-    return render_template('index.html', resorts=resorts, forecasts=forecasts)
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
-    # Fetch forecast data from API
-    api_response = requests.get(FORECAST_API_URL)
-    api_forecasts = response.json() if response.status_code == 200 else []
-
-    return render_template('index.html', resorts=resorts, forecasts=forecasts)
+    return render_template('index.html', resorts=resorts, forecasts=forecasts if forecasts else [])
 
 if __name__ == '__main__':
     app.run(debug=True)
