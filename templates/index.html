@@ -21,5 +21,18 @@
             <li>{{ forecast.date }}: {{ forecast.snowfall_amount }} inches</li>
         {% endfor %}
     </ul>
+    <h3>Forecast</h3>
+        {% if forecasts %}
+             {% for forecast in forecasts.forecast %}
+        <div>
+            <p>Date: {{ forecast.date }} Time: {{ forecast.time }}</p>
+            <p>Low Cloud: {{ forecast.lowcloud_pct }}%</p>
+            <p>Snowfall: {{ forecast.snow_mm }} mm</p>
+            
+        </div>
+     {% endfor %}
+{% else %}
+    <p>No forecast data available.</p>
+{% endif %}
 </body>
 </html>
