@@ -7,7 +7,6 @@ def get_ski_resort_forecast(resort_id, app_id, app_key, forecast_api_url, hourly
         "app_id": app_id,
         "app_key": app_key
     }
-    
     # Add optional parameters if provided
     if hourly_interval:
         params["hourly_interval"] = hourly_interval
@@ -19,7 +18,7 @@ def get_ski_resort_forecast(resort_id, app_id, app_key, forecast_api_url, hourly
     
     # Make the request with parameters
     response = requests.get(full_api_url, params=params, headers={"Accept": "application/json"})
-    
+#   
     if response.status_code == 200:
         return response.json()  # Return the parsed JSON response
     else:
