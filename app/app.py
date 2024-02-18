@@ -19,7 +19,9 @@ db_config = {
 
 # API Endpoint and Key from Environment Variables
 FORECAST_API_URL = os.getenv('FORECAST_API_URL', 'https://api.weatherunlocked.com')
-API_KEY = os.getenv('API_KEY')  # Assuming your API requires a key
+App_name = os.getenv('App_name')
+App_ID = os.getenv('App_ID')
+API_KEY = os.getenv('API_KEY')
 
 @app.route('/')
 def home():
@@ -35,8 +37,8 @@ def home():
     full_api_url = f"{FORECAST_API_URL}?app_id={API_KEY}"
 
     # Fetch forecast data from API
-    response = requests.get(full_api_url)
-    forecasts = response.json() if response.status_code == 200 else []
+    api_response = requests.get(full_api_url)
+    api_forecasts = response.json() if response.status_code == 200 else []
 
     return render_template('index.html', resorts=resorts, forecasts=forecasts)
 
@@ -45,8 +47,8 @@ if __name__ == '__main__':
 
 
     # Fetch forecast data from API
-    response = requests.get(FORECAST_API_URL)
-    forecasts = response.json() if response.status_code == 200 else []
+    api_response = requests.get(FORECAST_API_URL)
+    api_forecasts = response.json() if response.status_code == 200 else []
 
     return render_template('index.html', resorts=resorts, forecasts=forecasts)
 
