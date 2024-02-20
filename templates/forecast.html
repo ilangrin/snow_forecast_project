@@ -2,21 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ resort.name }} Ski Resort Forecast</title>
+    {% if resort %}
+        <title>{{ resort.name|default('N/A') }} Ski Resort Forecast</title>
+    {% else %}
+        <title>Ski Resort Forecast Error</title>
+    {% endif %}
 </head>
 <body>
-    <h1>{{ resort.name }} Ski Resort Forecast</h1>
-    <h2>{{ resort.country }}, {{ resort.continent }}</h2>
-    {% for day in resort.forecast %}
-        <div>
-            <h3>Date: {{ day.date }} at {{ day.time }}</h3>
-            <p>Weather: {{ day.base.wx_desc }}</p>
-            <p>Temperature: Low - {{ day.temp_c.min }}°C, High - {{ day.temp_c.max }}°C</p>
-            <p>Snowfall: {{ day.snow_mm }} mm</p>
-            <p>Visibility: {{ day.vis_km }} km</p>
-            <p>Wind Speed: {{ day.base.windspd_kmh }} km/h</p>
-        
-        </div>
-    {% endfor %}
+    {% if resort %}
+        <h1>{{ resort.name }} Ski Resort Forecast</h1>
+        <h2>{{ resort.country }}, {{ resort.continent }}</h2>
+        {% for day in resort.forecast %}
+            <div>
+                <h3>Date: {{ day.date }} at {{ day.time }}</h3>
+                <p>Weather: {{ day.base.wx_desc }}</p>
+                <p>Temperature: Low - {{ day.temp_c.min }}°C, High - {{ day.temp_c.max }}°C</p>
+                <p>Snowfall: {{ day.snow_mm }} mm</p>
+                <p>Visibility: {{ day.vis_km }} km</p>
+                <p>Wind Speed: {{ day.base.windspd_kmh }} km/h</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h1>Error Fetching Forecast</h1>
+        {% if error %}
+            <p>Error: {{ error }}</p>
+        {% else %}
+            <p>No forecast data available.</p>
+        {% endif %}
+    {% endif %}
 </body>
 </html>
