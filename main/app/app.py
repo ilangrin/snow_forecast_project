@@ -5,6 +5,11 @@ from api import get_ski_resort_forecast
 app = Flask(__name__)
 
 @app.route('/')
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 03bb7fd0b7f86b070aa0abd157d94b2fbabe89c1
 def home():
     # Direct database configuration
     db_config = {
