@@ -1,23 +1,17 @@
 from flask import Flask, render_template
-import os
-from dotenv import load_dotenv
-from main.api import get_ski_resort_forecast
 import mysql.connector
-# Load environment variables
-load_dotenv()
+from api import get_ski_resort_forecast
+
 app = Flask(__name__)
 
-
-# @app.route('/')
-
-
+@app.route('/')
 def home():
-    # Fetch resort data from MySQL
+    # Direct database configuration
     db_config = {
-        'user': os.getenv('DB_USER', 'myapp'),  # It's good practice to also use environment variables for these
-        'password': os.getenv('DB_PASSWORD', 'secret'),
-        'host': os.getenv('DB_HOST', 'localhost'),
-        'database': os.getenv('DB_NAME', 'resorts')
+        'user': 'ilangrin',
+        'password': 'Uri@2604198200',
+        'host': 'localhost',
+        'database': 'snowresortdb'
     }
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor(dictionary=True)
@@ -26,13 +20,11 @@ def home():
     cursor.close()
     cnx.close()
 
-    # Assume 'resort_id' is determined here. You may need a way to obtain this dynamically or as part of the request
-    resort_id = "54887871"  # This should be dynamically determined based on your application's logic
-    forecasts = get_ski_resort_forecast(resort_id, os.getenv('APP_ID'), os.getenv('API_KEY'), os.getenv('FORECAST_API_URL'), hourly_interval=6, num_of_days=3)
+    
+    resort_id = "124"  
+    forecasts = get_ski_resort_forecast(resort_id, '5e1b5987', '7f5ccb4dcebb3e586aeb5a50f06d9d18', 'https://api.weatherunlocked.com', hourly_interval=6, num_of_days=3)
 
     return render_template('index.html', resorts=resorts, forecasts=forecasts if forecasts else [])
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

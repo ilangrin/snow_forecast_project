@@ -15,14 +15,11 @@ def get_ski_resort_forecast(resort_id, app_id, app_key, forecast_api_url, hourly
 
     # Construct the full URL with optional parameters
     full_api_url = f"{forecast_api_url}/api/resortforecast/{resort_id}"
-    
     # Make the request with parameters
     response = requests.get(full_api_url, params=params, headers={"Accept": "application/json"})
-#   
     if response.status_code == 200:
         return response.json()  # Return the parsed JSON response
     else:
         # Log error or handle it based on your application's needs
         print(f"Error fetching forecast: {response.status_code}")
         return None
-
